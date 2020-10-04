@@ -15,7 +15,7 @@ app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({extended: true}))
 app.set('views', __dirname + '/views');
 
-mongoose.connect('mongodb+srv://username:password@cluster0.cz9bm.mongodb.net/url-shortener-cimso?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://Bren1209:Qwerty@314@cluster0.cz9bm.mongodb.net/url-shortener-cimso?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const shorteningSchema = new mongoose.Schema({
   longUrl: String,
