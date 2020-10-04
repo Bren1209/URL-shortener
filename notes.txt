@@ -1,0 +1,3 @@
+Short ID = over 13,537,086,546,263,552 possible unique ID's
+
+Did not impliment !shortening if parameter was as long as it would have been with the unique code, due to not falling inside brief specs

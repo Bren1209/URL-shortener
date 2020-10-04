@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">  <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+  <link rel="stylesheet" href="/stylesheets/stylesheet.css">
+  <title>URL Shortener - CiMSO</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/database">View Database</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1>Output:</h1>
+        <% if (typeof short !== 'undefined') { %>
+          <h4>Original:</h4>
+          <p><%= original %></p>
+          <h4>Shortened:</h4>
+          <p><%= short %></p>
+        <% } else if (typeof needlessShort1 !== 'undefined') { %>
+          <h3>Parameter given was more than 18 characters, but still shorter than a shortened URL would be with added /ID</h3>
+          <h4>Original:</h4>
+          <p><%= original %></p>
+        <% } else if (typeof needlessShort2 !== 'undefined') { %>
+          <h3>No need to shorten the URL as the parameter given was less than or equal to 18 characters.</h3>
+          <h4>Original:</h4>
+          <p><%= original %></p>
+        <% } else if (typeof exists !== 'undefined') { %>
+          <h3>URL already exists. Please use:</h3>
+          <p><%= exists %></p>
+        <% } else { %>
+          <h3>This is not the page you're looking for.</h3>
+        <% } %>
+          
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
