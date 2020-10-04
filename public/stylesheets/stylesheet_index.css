@@ -1,0 +1,57 @@
+body, html {
+  width: 100%;
+  height: 100%;
+  background: url('/resources/andreas-kind.jpg');
+  font-family: 'Roboto', sans-serif;
+}
+
+.form-container {
+  margin-top: 5rem;
+  width: 40%;
+}
+
+input, button {
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.466);
+}
+
+h2 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  color: rgb(248, 244, 244);
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.452);
+}
+
+li {
+  margin: 0 1rem;
+}
+
+.footer {
+  text-align: center;
+}
+
+.footer p{
+  font-size: 0.9rem;
+  position: absolute;
+  bottom: 1%;
+  left: 1%;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.425);
+}
+
+@media(max-width: 1200px){
+  .form-container{
+    width: 50%;
+  }
+}
+
+@media(max-width: 900px){
+  .form-container{
+    width: 70%;
+  }
+}
+
+@media(max-width: 544px){
+  .form-container{
+    width: 90%;
+  }
+}

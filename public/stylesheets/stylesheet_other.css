@@ -1,0 +1,46 @@
+body, html {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(15, 15, 15);
+  color: rgb(197, 197, 197);
+  font-family: 'Roboto', sans-serif;
+}
+
+hr {
+  background-color: rgb(197, 197, 197);;
+}
+
+h3 {
+  margin: 3rem 0;
+}
+
+.output {
+  margin-top: 5rem;
+}
+
+li {
+  margin: 0 1rem;
+}
+
+.form-container {
+  margin-top: 1rem;
+  width: 40%;
+}
+
+@media(max-width: 1200px){
+  .form-container{
+    width: 50%;
+  }
+}
+
+@media(max-width: 900px){
+  .form-container{
+    width: 70%;
+  }
+}
+
+@media(max-width: 544px){
+  .form-container{
+    width: 90%;
+  }
+}

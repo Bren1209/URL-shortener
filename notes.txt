@@ -1,3 +1,8 @@
 Short ID = over 13,537,086,546,263,552 possible unique ID's
 
 Did not impliment !shortening if parameter was as long as it would have been with the unique code, due to not falling inside brief specs
+
+misunderstood shortened URL as "has to include https://cimso.xyz/ +PLUS+ (18 char parameter) +PLUS+ unique code
+7.3871139e-15
+0.0000000000000074
+impliment safety check to see if shortened code already exists in database

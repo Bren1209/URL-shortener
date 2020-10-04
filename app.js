@@ -15,17 +15,19 @@ app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({extended: true}))
 app.set('views', __dirname + '/views');
 
-mongoose.connect('mongodb://localhost:27017/url-shortener', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://username:password@cluster0.cz9bm.mongodb.net/url-shortener-cimso?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const shorteningSchema = new mongoose.Schema({
   longUrl: String,
-  shortUrl: String
+  shortUrl: String,
+  uniqueCode: String
 })
 
 const Url = new mongoose.model('Url', shorteningSchema)
 
 app.get('/', (req, res) => {
-  res.render('index')
+  const currentYear = new Date().getFullYear()
+  res.render('index', {currentYear: currentYear})
 })
 
 app.get('/database', (req, res) => {
@@ -38,10 +40,29 @@ app.get('/database', (req, res) => {
   })
 })
 
+app.get('/crosscheck', (req, res) => {
+  res.render('crosscheck');
+})
+
 app.post('/shortened-url', (req, res) => {
-  const inputURL = req.body.ogurl.trim();
-  const shortCode = shortId.generate()
+  const inputURL = req.body.ogurl.trim().toLowerCase();
   const originalURL = baseURL + inputURL.trim().split(' ').join('-') + '/'
+  const shortCode = shortId.generate()
+
+  Url.findOne({uniqueCode: shortCode}, (err, foundCode) => {
+    if (err){
+      console.log(err)
+    } else {
+      if (foundCode == null){
+        console.log('Generated short code does not exist in database. Proceeding.')
+      } else {
+        while (foundCode.uniqueCode === shortCode){
+          console.log('Generated short code already exists in DB. Chance of this happening is: 0.0000000000000074 %. Unreal. Regenerating code...')
+          shortCode = shortId.generate()
+        }
+      }
+    }
+  })
 
   Url.findOne({longUrl: originalURL}, (err, foundURL) => {
     if (err){
@@ -49,23 +70,48 @@ app.post('/shortened-url', (req, res) => {
     } else {
       if (foundURL == null){
         console.log('URL does not exist. Adding to database...')
-        if (inputURL.length > 27){
-          let shortenedURL = inputURL.substring(0, 18).trim().split(' ').join('-') + '/';
-          let outputURL = baseURL + shortenedURL + shortCode + '/'
-          Url.create({longUrl: originalURL, shortUrl: outputURL})
-          res.render('show', {original: originalURL, short: outputURL})
-        } else if (inputURL.length > 18 && inputURL.length <= 27) {
-          let outputURL = baseURL + inputURL.split(' ').join('-') + '/'
-          Url.create({longUrl: originalURL, shortUrl: outputURL})
-          res.render('show', {original: originalURL, needlessShort1: true})
-        } else {
-          let outputURL = baseURL + inputURL.split(' ').join('-') + '/'
-          Url.create({longUrl: originalURL, shortUrl: outputURL})
-          res.render('show', {original: originalURL, needlessShort2: true})
-        }
+        let outputURL = baseURL + shortCode + '/'
+        Url.create({longUrl: originalURL, shortUrl: outputURL, uniqueCode: shortCode})
+        res.render('show', {original: originalURL, short: outputURL})
       } else {
         console.log('URL Exists: ' + foundURL.shortUrl)
         res.render('show', {exists: foundURL.shortUrl})
+      }
+    }
+  })
+})
+
+app.post('/find-short', (req, res) => {
+  const long = req.body.long
+  Url.findOne({longUrl: long}, (err, foundURL) => {
+    if(err){
+      console.log(err)
+      let errMsg = 'There was a problem finding the URL. Please check for any typos. Error code: \n' + err
+      res.render('show', {errMsg: errMsg})
+    } else {
+      if (foundURL !== null){
+        res.render('show', {foundURL: foundURL.shortUrl})
+      } else {
+        let errMsg = 'There was a problem finding the URL. Please check for any typos. Error code: \n' + err
+        res.render('show', {errMsg: errMsg})
+      }
+    }
+  })
+})
+
+app.post('/find-long', (req, res) => {
+  const short = req.body.short
+  Url.findOne({shortUrl: short}, (err, foundURL) => {
+    if(err){
+      console.log(err)
+      let errMsg = 'There was a problem finding the URL. Please check for any typos. Error code: \n' + err
+      res.render('show', {errMsg: errMsg})
+    } else {
+      if (foundURL !== null){
+        res.render('show', {foundURL: foundURL.longUrl})
+      } else {
+        let errMsg = 'There was a problem finding the URL. Please check for any typos. Error code: \n' + err
+        res.render('show', {errMsg: errMsg})
       }
     }
   })
