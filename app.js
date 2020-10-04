@@ -3,7 +3,6 @@ const ejs = require('ejs');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const shortId = require('shortid');
-const { urlencoded } = require('body-parser');
 
 require('dotenv').config()
 
